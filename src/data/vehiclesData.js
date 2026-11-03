@@ -1,0 +1,80 @@
+export const VEHICLES_DATABASE = [
+  {
+    id: 'porsche-992-gt3',
+    year: 2024,
+    make: 'Porsche',
+    model: '911 GT3 / GT3 RS',
+    chassis: '992.1',
+    engine: '4.0L Naturally Aspirated Flat-6 (MA2.75 / 518 HP)',
+    trim: 'Clubsport / Weissach Package',
+    drivetrain: 'RWD / 7-Speed PDK',
+    oemPCD: 'Center-Lock / 5x130mm',
+    frontRotorSpec: '410 x 36 mm Ceramic Composite',
+    compatibleParts: ['apex-ccb-01', 'apex-susp-03', 'apex-wheel-04']
+  },
+  {
+    id: 'bmw-g80-m3',
+    year: 2024,
+    make: 'BMW',
+    model: 'M3 Competition / M4 (G80/G82)',
+    chassis: 'G80 / G82',
+    engine: '3.0L Twin-Turbo Inline-6 (S58B30T0 / 503 HP)',
+    trim: 'M xDrive / RWD',
+    drivetrain: 'AWD / 8-Speed M Steptronic',
+    oemPCD: '5x112mm',
+    frontRotorSpec: '400 x 38 mm CCB / Steel',
+    compatibleParts: ['apex-ccb-01', 'apex-turbo-02', 'apex-susp-03', 'apex-wheel-04']
+  },
+  {
+    id: 'audi-c8-rs6',
+    year: 2023,
+    make: 'Audi',
+    model: 'RS6 Avant / RS7 Performance',
+    chassis: 'C8 / 4K',
+    engine: '4.0L Twin-Turbo V8 + 48V MHEV (DJP / 621 HP)',
+    trim: 'Dynamic Package Plus',
+    drivetrain: 'Quattro Permanent AWD / 8-Speed Tiptronic',
+    oemPCD: '5x112mm',
+    frontRotorSpec: '420 x 40 mm Ceramic',
+    compatibleParts: ['apex-ccb-01', 'apex-turbo-02', 'apex-susp-03']
+  },
+  {
+    id: 'nissan-gtr-r35',
+    year: 2024,
+    make: 'Nissan',
+    model: 'GT-R Nismo / Premium',
+    chassis: 'R35 DBA-R35',
+    engine: '3.8L Twin-Turbocharged V6 (VR38DETT / 600 HP)',
+    trim: 'Track Edition / Nismo Carbon',
+    drivetrain: 'ATTESA E-TS All-Wheel Drive',
+    oemPCD: '5x114.3mm',
+    frontRotorSpec: '410 x 38 mm Carbon-Silicon Carbide',
+    compatibleParts: ['apex-ccb-01', 'apex-turbo-02', 'apex-susp-03', 'apex-wheel-04']
+  },
+  {
+    id: 'toyota-gr-supra',
+    year: 2024,
+    make: 'Toyota',
+    model: 'GR Supra 3.0',
+    chassis: 'A90 / DB42',
+    engine: '3.0L Twin-Scroll Turbo Inline-6 (B58 / 382 HP)',
+    trim: 'Premium 6MT / 8AT',
+    drivetrain: 'RWD / Active Limited-Slip Differential',
+    oemPCD: '5x112mm',
+    frontRotorSpec: '348 x 36 mm Brembo',
+    compatibleParts: ['apex-ccb-01', 'apex-turbo-02', 'apex-susp-03', 'apex-wheel-04']
+  },
+  {
+    id: 'mercedes-amg-gt',
+    year: 2024,
+    make: 'Mercedes-AMG',
+    model: 'AMG GT 63 S E-Performance',
+    chassis: 'C192',
+    engine: '4.0L Biturbo V8 + Electric Motor (M177 / 805 HP)',
+    trim: 'Coupe Aerodynamics Spec',
+    drivetrain: 'AMG Performance 4MATIC+',
+    oemPCD: '5x112mm',
+    frontRotorSpec: '420 x 40 mm Carbon Ceramic',
+    compatibleParts: ['apex-ccb-01', 'apex-turbo-02', 'apex-susp-03']
+  }
+];
