@@ -606,4 +606,43 @@ const addToCart = () => {
     border-top: 1px solid var(--border-dim);
   }
 }
+
+@media (max-width: 640px) {
+  .product-panel {
+    padding: 16px;
+    gap: 16px;
+  }
+  .part-title {
+    font-size: 18px;
+  }
+  .price-val {
+    font-size: 24px;
+  }
+  .price-row {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .stock-status {
+    align-items: flex-start;
+  }
+  .order-action-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .qty-selector {
+    justify-content: center;
+  }
+  .tab-btn {
+    font-size: 9px;
+    padding: 8px 4px;
+  }
+}
+
+@media (max-width: 380px) {
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
 </style>

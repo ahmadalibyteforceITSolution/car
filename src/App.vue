@@ -372,6 +372,22 @@ const scrollToTop = () => {
   }
   .footer-inner {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .viewport-wrapper {
+    height: 420px;
+  }
+  .site-footer {
+    padding: 32px 16px 20px;
+  }
+}
+
+@media (max-width: 420px) {
+  .viewport-wrapper {
+    height: 360px;
   }
 }
 </style>

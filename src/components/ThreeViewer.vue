@@ -24,30 +24,26 @@
     <!-- CAD Telemetry Overlay (corners) -->
     <div class="cad-overlay-top-left">
       <div class="cad-data-row">
-        <span class="cad-label">RENDER ENGINE:</span>
-        <span class="cad-val">PBR / ACES-FILMIC</span>
-      </div>
-      <div class="cad-data-row">
-        <span class="cad-label">MODEL ID:</span>
+        <span class="cad-label desktop-only">MODEL:</span>
         <span class="cad-val font-mono">{{ activePart?.sku }}</span>
       </div>
-      <div class="cad-data-row">
+      <div class="cad-data-row desktop-tablet-only">
         <span class="cad-label">TOLERANCE:</span>
-        <span class="cad-val">±0.005 mm ISO 2768-mK</span>
+        <span class="cad-val">±0.005 mm ISO 2768</span>
       </div>
     </div>
 
-    <div class="cad-overlay-bottom-left">
+    <div class="cad-overlay-bottom-left desktop-tablet-only">
       <div class="cad-hint">
         <span class="cad-hint-icon">🖱️</span>
-        <span class="cad-hint-text">DRAG TO ORBIT // SCROLL TO ZOOM // PIN TO INSPECT</span>
+        <span class="cad-hint-text">DRAG TO ORBIT // PIN TO INSPECT</span>
       </div>
     </div>
 
     <div class="cad-overlay-top-right">
       <div class="cad-telemetry-badge">
         <span class="cad-indicator"></span>
-        <span>CAD WORKBENCH LIVE</span>
+        <span class="desktop-only">CAD LIVE</span>
       </div>
     </div>
   </div>
@@ -175,7 +171,7 @@ defineExpose({
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 540px;
+  min-height: 480px;
   background: #0c0d10;
   overflow: hidden;
   user-select: none;
@@ -185,6 +181,7 @@ defineExpose({
   width: 100%;
   height: 100%;
   cursor: grab;
+  touch-action: none;
 }
 
 .canvas-viewport:active {
@@ -207,24 +204,26 @@ defineExpose({
 
 .cad-overlay-top-left {
   position: absolute;
-  top: 16px;
-  left: 20px;
+  top: 14px;
+  left: 14px;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   gap: 4px;
+  z-index: 5;
 }
 
 .cad-data-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-family: var(--font-mono);
   font-size: 10px;
-  background: rgba(14, 16, 21, 0.7);
-  padding: 3px 8px;
+  background: rgba(14, 16, 21, 0.75);
+  padding: 3px 6px;
   border-left: 2px solid var(--accent-orange);
   backdrop-filter: blur(6px);
+  border-radius: 2px;
 }
 
 .cad-label {
@@ -238,29 +237,31 @@ defineExpose({
 
 .cad-overlay-bottom-left {
   position: absolute;
-  bottom: 16px;
-  left: 20px;
+  bottom: 14px;
+  left: 14px;
   pointer-events: none;
+  z-index: 5;
 }
 
 .cad-hint {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   background: rgba(14, 16, 21, 0.75);
   border: 1px solid var(--border-dim);
-  padding: 6px 12px;
+  padding: 4px 8px;
   border-radius: 2px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
 }
 
 .cad-overlay-top-right {
   position: absolute;
-  top: 16px;
-  right: 20px;
+  top: 14px;
+  right: 14px;
   pointer-events: none;
+  z-index: 5;
 }
 
 .cad-telemetry-badge {
@@ -269,10 +270,10 @@ defineExpose({
   gap: 6px;
   background: rgba(14, 16, 21, 0.8);
   border: 1px solid var(--border-bright);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 2px;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   color: var(--accent-cyan);
   letter-spacing: 0.08em;
 }
@@ -283,5 +284,22 @@ defineExpose({
   background: var(--accent-cyan);
   border-radius: 50%;
   box-shadow: 0 0 6px var(--accent-cyan);
+}
+
+@media (max-width: 640px) {
+  .viewer-container {
+    min-height: 380px;
+  }
+  .cad-overlay-top-left {
+    top: 8px;
+    left: 8px;
+  }
+  .cad-overlay-top-right {
+    top: 8px;
+    right: 8px;
+  }
+  .hotspot-tag {
+    display: none; /* Keep clean pins on small mobile to avoid screen crowding */
+  }
 }
 </style>

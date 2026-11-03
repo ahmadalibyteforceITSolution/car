@@ -399,4 +399,23 @@ const onProceedCheckout = () => {
   height: 46px;
   font-size: 14px;
 }
+
+@media (max-width: 540px) {
+  .cart-drawer {
+    max-width: 100%;
+  }
+  .drawer-header {
+    padding: 14px 16px;
+  }
+  .drawer-body {
+    padding: 16px;
+  }
+  .drawer-footer {
+    padding: 16px;
+  }
+  .checkout-btn {
+    font-size: 12px;
+    height: 42px;
+  }
+}
 </style>

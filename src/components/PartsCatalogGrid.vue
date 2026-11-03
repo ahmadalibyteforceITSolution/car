@@ -426,4 +426,31 @@ const onAddToCart = (part) => {
   padding: 6px 12px;
   font-size: 11px;
 }
+
+@media (max-width: 768px) {
+  .catalog-section {
+    padding: 40px 16px;
+  }
+  .section-title {
+    font-size: 22px;
+  }
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .category-pills {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .catalog-search {
+    width: 100%;
+    min-width: unset;
+  }
+  .parts-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
 </style>

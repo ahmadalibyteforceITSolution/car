@@ -28,29 +28,31 @@
         </div>
 
         <!-- Line Items Table -->
-        <table class="inv-table">
-          <thead>
-            <tr>
-              <th>SKU / COMPONENT</th>
-              <th>OEM CROSS-REF</th>
-              <th>QTY</th>
-              <th>UNIT PRICE</th>
-              <th>TOTAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in orderData.items" :key="item.part.id">
-              <td>
-                <div class="tbl-name">{{ item.part.name }}</div>
-                <div class="tbl-sku font-mono">{{ item.part.sku }}</div>
-              </td>
-              <td class="font-mono text-dim">{{ item.part.oemRef }}</td>
-              <td class="font-mono">{{ item.quantity }}</td>
-              <td class="font-mono">{{ formatPrice(item.part.price) }}</td>
-              <td class="font-mono font-bold">{{ formatPrice(item.part.price * item.quantity) }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="inv-table-wrapper">
+          <table class="inv-table">
+            <thead>
+              <tr>
+                <th>SKU / COMPONENT</th>
+                <th>OEM CROSS-REF</th>
+                <th>QTY</th>
+                <th>UNIT PRICE</th>
+                <th>TOTAL</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in orderData.items" :key="item.part.id">
+                <td>
+                  <div class="tbl-name">{{ item.part.name }}</div>
+                  <div class="tbl-sku font-mono">{{ item.part.sku }}</div>
+                </td>
+                <td class="font-mono text-dim">{{ item.part.oemRef }}</td>
+                <td class="font-mono">{{ item.quantity }}</td>
+                <td class="font-mono">{{ formatPrice(item.part.price) }}</td>
+                <td class="font-mono font-bold">{{ formatPrice(item.part.price * item.quantity) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- Totals & Logistics -->
         <div class="inv-bottom-grid">
@@ -339,6 +341,12 @@ const printInvoice = () => {
   font-size: 18px;
 }
 
+.inv-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 .inv-actions {
   padding: 18px 24px;
   background: #0b0d13;
@@ -346,6 +354,34 @@ const printInvoice = () => {
   display: flex;
   justify-content: space-between;
   gap: 12px;
+}
+
+@media (max-width: 640px) {
+  .inv-header {
+    flex-direction: column;
+    gap: 14px;
+    padding: 16px;
+  }
+  .inv-meta {
+    align-items: flex-start;
+  }
+  .inv-body {
+    padding: 16px;
+    gap: 14px;
+  }
+  .inv-bottom-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .inv-calc-box {
+    min-width: unset;
+    width: 100%;
+  }
+  .inv-actions {
+    flex-direction: column;
+    padding: 14px 16px;
+  }
 }
 
 @media print {

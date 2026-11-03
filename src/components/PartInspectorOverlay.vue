@@ -1,6 +1,6 @@
 <template>
   <div class="inspector-dock">
-    <!-- Top Part Selector Tabs -->
+    <!-- Top Part Selector Tabs (Horizontal Scrollable on Mobile) -->
     <div class="part-selector-bar">
       <button 
         v-for="part in partsList" 
@@ -12,101 +12,107 @@
         <span class="part-tab-icon">{{ getPartIcon(part.modelType) }}</span>
         <div class="part-tab-info">
           <div class="part-tab-title">{{ part.shortCategory }}</div>
-          <div class="part-tab-sku">{{ part.sku }}</div>
+          <div class="part-tab-sku desktop-tablet-only">{{ part.sku }}</div>
         </div>
       </button>
     </div>
 
-    <!-- Bottom Controls HUD Bar -->
-    <div class="controls-hud">
-      <!-- 1. Exploded View Slider -->
-      <div class="hud-control-group explode-group">
-        <div class="control-header">
-          <span class="control-label">ASSEMBLY EXPLOSION</span>
-          <span class="control-value font-mono">{{ Math.round(explodeValue * 100) }}%</span>
-        </div>
-        <div class="slider-row">
-          <input 
-            type="range" 
-            min="0" 
-            max="1" 
-            step="0.01" 
-            :value="explodeValue"
-            @input="onExplodeInput"
-          />
-          <div class="explode-presets">
-            <button class="preset-btn" :class="{ active: explodeValue === 0 }" @click="setExplode(0)">0%</button>
-            <button class="preset-btn" :class="{ active: Math.abs(explodeValue - 0.5) < 0.05 }" @click="setExplode(0.5)">50%</button>
-            <button class="preset-btn" :class="{ active: explodeValue === 1 }" @click="setExplode(1)">100%</button>
+    <!-- Bottom Controls HUD Bar with Mobile Collapse Toggle -->
+    <div class="hud-container">
+      <!-- Mobile HUD Toggle Button -->
+      <button class="mobile-hud-toggle" @click="isHudExpanded = !isHudExpanded">
+        <span>⚙️ 3D CONTROLS ({{ Math.round(explodeValue * 100) }}% EXPLODE)</span>
+        <span class="toggle-arrow">{{ isHudExpanded ? '▼' : '▲' }}</span>
+      </button>
+
+      <div class="controls-hud" :class="{ 'hud-collapsed': !isHudExpanded }">
+        <!-- 1. Exploded View Slider -->
+        <div class="hud-control-group explode-group">
+          <div class="control-header">
+            <span class="control-label">EXPLOSION</span>
+            <span class="control-value font-mono">{{ Math.round(explodeValue * 100) }}%</span>
+          </div>
+          <div class="slider-row">
+            <input 
+              type="range" 
+              min="0" 
+              max="1" 
+              step="0.01" 
+              :value="explodeValue"
+              @input="onExplodeInput"
+            />
+            <div class="explode-presets">
+              <button class="preset-btn" :class="{ active: explodeValue === 0 }" @click="setExplode(0)">0%</button>
+              <button class="preset-btn" :class="{ active: Math.abs(explodeValue - 0.5) < 0.05 }" @click="setExplode(0.5)">50%</button>
+              <button class="preset-btn" :class="{ active: explodeValue === 1 }" @click="setExplode(1)">100%</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- 2. View Mode Switcher -->
-      <div class="hud-control-group">
-        <div class="control-header">
-          <span class="control-label">SHADER MODE</span>
+        <!-- 2. View Mode Switcher -->
+        <div class="hud-control-group">
+          <div class="control-header">
+            <span class="control-label">SHADER</span>
+          </div>
+          <div class="btn-group">
+            <button 
+              class="mode-btn" 
+              :class="{ active: viewMode === 'studio' }"
+              @click="setViewMode('studio')"
+            >
+              PBR
+            </button>
+            <button 
+              class="mode-btn" 
+              :class="{ active: viewMode === 'wireframe' }"
+              @click="setViewMode('wireframe')"
+            >
+              WIRE
+            </button>
+            <button 
+              class="mode-btn" 
+              :class="{ active: viewMode === 'thermal' }"
+              @click="setViewMode('thermal')"
+            >
+              FEA
+            </button>
+          </div>
         </div>
-        <div class="btn-group">
-          <button 
-            class="mode-btn" 
-            :class="{ active: viewMode === 'studio' }"
-            @click="setViewMode('studio')"
-            title="Real-time PBR Surface Shaders"
-          >
-            STUDIO PBR
-          </button>
-          <button 
-            class="mode-btn" 
-            :class="{ active: viewMode === 'wireframe' }"
-            @click="setViewMode('wireframe')"
-            title="CAD Technical Wireframe Blueprint"
-          >
-            CAD WIRE
-          </button>
-          <button 
-            class="mode-btn" 
-            :class="{ active: viewMode === 'thermal' }"
-            @click="setViewMode('thermal')"
-            title="FEA Thermal & Stress Heat Gradient Simulation"
-          >
-            FEA THERMAL
-          </button>
-        </div>
-      </div>
 
-      <!-- 3. Camera Presets -->
-      <div class="hud-control-group">
-        <div class="control-header">
-          <span class="control-label">CAMERA VIEW</span>
+        <!-- 3. Camera Presets -->
+        <div class="hud-control-group desktop-tablet-only">
+          <div class="control-header">
+            <span class="control-label">CAMERA</span>
+          </div>
+          <div class="btn-group">
+            <button class="mode-btn" @click="setCamera('iso')">ISO</button>
+            <button class="mode-btn" @click="setCamera('front')">FRONT</button>
+            <button class="mode-btn" @click="setCamera('side')">SIDE</button>
+            <button class="mode-btn" @click="setCamera('top')">TOP</button>
+          </div>
         </div>
-        <div class="btn-group">
-          <button class="mode-btn" @click="setCamera('iso')">ISO 45°</button>
-          <button class="mode-btn" @click="setCamera('front')">FRONT</button>
-          <button class="mode-btn" @click="setCamera('side')">SIDE</button>
-          <button class="mode-btn" @click="setCamera('top')">TOP</button>
-        </div>
-      </div>
 
-      <!-- 4. Turntable Auto-Rotate -->
-      <div class="hud-control-group toggle-group">
-        <div class="control-header">
-          <span class="control-label">TURNTABLE</span>
+        <!-- 4. Turntable Auto-Rotate -->
+        <div class="hud-control-group toggle-group">
+          <div class="control-header">
+            <span class="control-label">SPIN</span>
+          </div>
+          <button 
+            class="turntable-btn"
+            :class="{ active: isAutoRotating }"
+            @click="toggleTurntable"
+          >
+            <span class="spin-icon" :class="{ spinning: isAutoRotating }">🔄</span>
+            <span class="desktop-only">{{ isAutoRotating ? 'ROTATING' : 'PAUSED' }}</span>
+          </button>
         </div>
-        <button 
-          class="turntable-btn"
-          :class="{ active: isAutoRotating }"
-          @click="toggleTurntable"
-        >
-          <span class="spin-icon" :class="{ spinning: isAutoRotating }">🔄</span>
-          <span>{{ isAutoRotating ? 'ROTATING' : 'PAUSED' }}</span>
-        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { sound } from '../utils/audio.js';
 
 const props = defineProps({
@@ -124,6 +130,8 @@ const emit = defineEmits([
   'update:cameraPreset',
   'update:isAutoRotating'
 ]);
+
+const isHudExpanded = ref(true);
 
 const getPartIcon = (type) => {
   switch (type) {
@@ -178,7 +186,8 @@ const toggleTurntable = () => {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 16px 20px;
+  padding: 12px 14px;
+  z-index: 10;
 }
 
 /* Part Tabs Bar */
@@ -187,24 +196,25 @@ const toggleTurntable = () => {
   align-self: center;
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(14, 16, 22, 0.88);
+  gap: 6px;
+  background: rgba(14, 16, 22, 0.92);
   border: 1px solid var(--border-bright);
-  padding: 6px;
+  padding: 4px;
   border-radius: 4px;
   backdrop-filter: blur(12px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-  max-width: 95%;
+  max-width: 98%;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .part-tab-btn {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   background: transparent;
   border: 1px solid transparent;
-  padding: 7px 14px;
+  padding: 6px 10px;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -223,7 +233,7 @@ const toggleTurntable = () => {
 }
 
 .part-tab-icon {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .part-tab-info {
@@ -232,7 +242,7 @@ const toggleTurntable = () => {
 
 .part-tab-title {
   font-family: var(--font-display);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   color: #ffffff;
   letter-spacing: 0.05em;
@@ -249,32 +259,56 @@ const toggleTurntable = () => {
   color: var(--accent-orange);
 }
 
-/* Bottom Controls HUD */
-.controls-hud {
+/* HUD Container */
+.hud-container {
   pointer-events: auto;
   align-self: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 20px;
-  background: rgba(14, 16, 22, 0.92);
+  max-width: 98%;
+  gap: 4px;
+}
+
+.mobile-hud-toggle {
+  display: none;
+  background: rgba(14, 16, 22, 0.9);
   border: 1px solid var(--border-bright);
-  padding: 12px 20px;
+  color: var(--text-main);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  gap: 6px;
+}
+
+/* Bottom Controls HUD */
+.controls-hud {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(14, 16, 22, 0.94);
+  border: 1px solid var(--border-bright);
+  padding: 10px 16px;
   border-radius: 4px;
   backdrop-filter: blur(16px);
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.7);
-  max-width: 95%;
   flex-wrap: wrap;
   justify-content: center;
+  transition: all 0.25s ease;
 }
 
 .hud-control-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .explode-group {
-  min-width: 240px;
+  min-width: 200px;
 }
 
 .control-header {
@@ -282,7 +316,7 @@ const toggleTurntable = () => {
   align-items: center;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
 }
 
 .control-label {
@@ -298,12 +332,12 @@ const toggleTurntable = () => {
 .slider-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .explode-presets {
   display: flex;
-  gap: 4px;
+  gap: 3px;
 }
 
 .preset-btn {
@@ -312,7 +346,7 @@ const toggleTurntable = () => {
   color: var(--text-muted);
   font-family: var(--font-mono);
   font-size: 9px;
-  padding: 3px 6px;
+  padding: 3px 5px;
   border-radius: 2px;
   cursor: pointer;
 }
@@ -325,7 +359,7 @@ const toggleTurntable = () => {
 
 .btn-group {
   display: flex;
-  gap: 4px;
+  gap: 3px;
 }
 
 .mode-btn {
@@ -333,9 +367,9 @@ const toggleTurntable = () => {
   border: 1px solid var(--border-dim);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  padding: 6px 10px;
+  padding: 5px 8px;
   border-radius: 2px;
   cursor: pointer;
   letter-spacing: 0.05em;
@@ -356,14 +390,14 @@ const toggleTurntable = () => {
 .turntable-btn {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: #171b26;
   border: 1px solid var(--border-dim);
   color: var(--text-muted);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 5px 8px;
   border-radius: 2px;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -389,10 +423,16 @@ const toggleTurntable = () => {
   to { transform: rotate(360deg); }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 640px) {
+  .mobile-hud-toggle {
+    display: inline-flex;
+  }
+  .controls-hud.hud-collapsed {
+    display: none;
+  }
   .controls-hud {
-    gap: 12px;
-    padding: 10px;
+    gap: 8px;
+    padding: 8px 12px;
   }
   .explode-group {
     min-width: 100%;
